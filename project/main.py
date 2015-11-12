@@ -56,14 +56,17 @@ def main():
     f = fileinput.input()
     d = collections.defaultdict(list)
     temp = ""
+    t = ""
     count = 0
     for i, line in enumerate(f):
+        if '>' in line and i == 0:
+            t = line.rstrip()
         if '>' in line and i != 0:
-            d[count] = temp
+            d[line.rstrip()] = temp
             temp = ""
             count += 1
         if '>' not in line: temp += line.rstrip()
-    d[count] = temp
+    d[t] = temp
     ''' Modified so that multiple strands can be processed at once, just in case '''
 
     for s in d.items():
