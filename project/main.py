@@ -1,5 +1,6 @@
 import fileinput
 import collections
+import os
 
 map = {"UUU":"F", "UUC":"F", "UUA":"L", "UUG":"L",
     "UCU":"S", "UCC":"S", "UCA":"S", "UCG":"S",
@@ -50,6 +51,21 @@ def getProteins(strand, startPos):
                 proteins.add(toPrint)
                 break
 
+def getComplementStrand(strand):
+    ''' reading reverse complement '''
+    complementStrand = ""
+    for item in reversed(strand):
+        if item == "C":
+            complementStrand += 'G'
+        if item == "G":
+            complementStrand += 'C'
+        if item == "A":
+            complementStrand += 'U'
+        if item == "U":
+            complementStrand += 'A'
+
+    return complementStrand
+
 proteins = set()
 invalidAlphabet = {'B', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'}
 def main():
@@ -81,16 +97,7 @@ def main():
         getProteins(strand, 2)
 
         ''' reading reverse complement '''
-        complementStrand = ""
-        for item in reversed(strand):
-            if item == "C":
-                complementStrand += 'G'
-            if item == "G":
-                complementStrand += 'C'
-            if item == "A":
-                complementStrand += 'U'
-            if item == "U":
-                complementStrand += 'A'
+        complementStrand = getComplementStrand(strand)
 
         getProteins(complementStrand, 0)
         getProteins(complementStrand, 1)
