@@ -99,7 +99,7 @@ _revcomp_trans = string.maketrans("ACGTacgt", "TGCAtgca")
 def getComplementStrand(s):
     return s[::-1].translate(_revcomp_trans)
 
-def getAminoAcidSequence(strand):
+def getProteinData(strand):
     proteins = set()
     startCodon = 'ATG'
     stop = ('TAA', 'TGA', 'TAG')
@@ -111,15 +111,15 @@ def getAminoAcidSequence(strand):
             codon = seq[x:x+3]
             if len(codon) < 3: break
             if codon == startCodon:
-                proteinSeq = []
+                proteinSeq = ''
                 for i in xrange(x, len(seq), 3):
                     codon2 = seq[i:i+3]
                     if len(codon2) < 3: break
                     if codon2 in stop:
-                        proteins.add(''.join(proteinSeq))
+                        proteins.add(proteinSeq)
                         break
                     if codon2 in map.keys():
-                        proteinSeq.append(map[codon2])
+                        proteinSeq += map[codon2]
 
     ''' Print database query if applicable -- get result '''
     for item in proteins:
@@ -137,7 +137,7 @@ def main():
 
     ''' Translation'''
     for item in data.items():
-        proteins = getAminoAcidSequence(item[1])
+        getProteinData(item[1])
 
 if __name__ == "__main__":
     main()
