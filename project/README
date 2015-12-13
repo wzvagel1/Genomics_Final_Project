@@ -18,6 +18,8 @@ There are 2 test files in the deliverables, test and refseqgene.7.genomic.fna. W
 
 In addition, our code will create a database (db.csv) based on the files contained in the DB_Files directory and will then save the database locally. If the number of files in DB_Files has changed then the database will be recreated on the next run of the program; however, if the number of files in DB_Files remains the same between runs then the database will not be created, but rather read in to a local variable called db. The first line of db.csv contains the number of files in DB_Files which is how we check to determine whether to update the database or not.
 
+Since sequences can have mistakes, we needed to account for that in the getProteinData() function. We didn't do this in the most elegant way but it works and doesn't make the program run much slower. The FASTA file can have characters such as 'K', 'Y', etc. which can correspond to multiple base pairs, so in order to handle this we used a random number generator in order to pick a random option. Ideally, we wanted to generate both so we can run all possible tests based on the information; however, we weren't able to implement that in time.
+
 -------------
 Contributions|
 -------------
