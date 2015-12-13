@@ -47,27 +47,48 @@ def setupDB():
     ''' Find files to make up database '''
     dbFiles = set()
     global db
+    files = set()
+    fileSize = collections.defaultdict(list)
     for f in os.listdir('DB_Files/'):
         if f.endswith('.fa') or f.endswith('.fsa') or f.endswith('.fasta'):
-            dbFiles.add(f)
+            dbFiles.add(f.rstrip())
     for f in os.listdir('.'):
         if f == 'db.csv':
-            buildDB = False
+            for line in file('db.csv'):
+                if 'File,' in line:
+                    t = line[line.find(',')+1: line.rfind(',')]
+                    files.add(t)
+                    fileSize[t] = line[line.rfind(',')+1:].rstrip()
+
+    for item in files:
+        if item not in dbFiles:
+            buildDB = True
+            break
+        else:
+            for i in fileSize.items():
+                valI = i[1].rstrip()
+                valItem = os.path.getsize('DB_Files/' + item)
+                if i[0] == item:
+                    if int(valI) == int(valItem):
+                        buildDB = False
+                    else:
+                        buildDB = True
+                        break
+                if buildDB == True:
+                    break
 
     ''' Read in db.csv if it exists '''
     if not buildDB:
         first = True
         read = False
-        for key, val in csv.reader(open("db.csv")):
-            if first:
-                if int(val) is len(dbFiles):
-                    read = True
-                first = False
-            if read:
+        with open('db.csv') as f:
+            for i in xrange(len(dbFiles)+1):
+                f.next()
+            for line in f:
+                key = line[:line.find(',')].rstrip()
+                val = line[line.find(',')+1:].rstrip()
                 db[key] = val
-        else:
-            if read:
-                return db
+        return db
 
     ''' Generate db from the set of files'''
     for f in dbFiles:
@@ -91,6 +112,8 @@ def setupDB():
         ''' Saves database to db.csv file '''
         w = csv.writer(open("db.csv", "w"))
         w.writerow(['Length', len(dbFiles)])
+        for f in dbFiles:
+            w.writerow(['File', f, os.path.getsize('DB_Files/' + f)])
         for key, val in db.items():
             w.writerow([key, val])
     return db
