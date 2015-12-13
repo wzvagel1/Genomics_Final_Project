@@ -3,3 +3,25 @@ Tom Pavarini    |
 Nikhil Panu     |
 ----------------
 
+-------------------
+Program Information|
+-------------------
+
+The program will be run using the following command:
+	python main.py < <input file> > <output file>
+
+Where the input file is a fasta file and the output will be organized in the following manner:
+	>Name
+		Amino Acid Sequence
+
+There are 2 test files in the deliverables, test and refseqgene.7.genomic.fna. When running main.py on test, the run should take about 13 seconds and test contains the information from 22 chromosomes. Likewise, when running main.py on refseqgene.7.genomic.fna, the run should take about 2 and a half minutes and refseqgene.7.genomic.fna contains the information from 702 chromosomes.
+
+In addition, our code will create a database (db.csv) based on the files contained in the DB_Files directory and will then save the database locally. If the number of files in DB_Files has changed then the database will be recreated on the next run of the program; however, if the number of files in DB_Files remains the same between runs then the database will not be created, but rather read in to a local variable called db. The first line of db.csv contains the number of files in DB_Files which is how we check to determine whether to update the database or not.
+
+-------------
+Contributions|
+-------------
+
+We were able to split the work up pretty evenly between the three members in our group: Tom, Nikhil, and Will. Our program originally had two branches that were being developed in parallel: (1) a completely local version and (2) a version which implements the BLAST command line tool. Will focused on the local version of main.py, he wrote the code for the database functionality in addition to the translation code. The getProteinData() function was modified from the solution set that Dr. Langmead provided the class for homework number five as well as the getComplementStrand() function which was taken directly. The database code is completely unique and saves the user a lot of time if he/she will run the program consecutive times (the first run of the program will create the database and get the protein information but subsequent runs will read in the database assuming it does not need to be updated). Nikhil spent time working on the BLAST command line implementation, we quickly realized that the blast command line tool was taking too much time to get fully implemented because getting an associated database installed in the proper location and then calling it was not documented particularly well. At that point, we decided to switch to utilizing only the local branch of our program; it was at this point that Nikhil switched to working on the write-up along with Tom. Tom was helping Nikhil get the blast implementation "working" but then moved on to starting the write-up until the local implementation was finished (at this point with only exact matching). Tom then decided to create another branch of the local version which does both exact matching as well as approximate matching. <INSERT ISSUES WITH THAT HERE IF APPLICABLE>. While Tom worked on the approximate matching branch, Nikhil took the reigns on the write-up and once all the branches were completed/abandoned all of the members of the group began to collaborate on the write-up in order to get it finished.
+
+
