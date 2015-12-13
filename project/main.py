@@ -4,6 +4,7 @@ from collections import defaultdict
 import os
 import csv
 import string
+import random
 
 map = {"TTT":"F", "TTC":"F", "TTA":"L", "TTG":"L",
     "TCT":"S", "TCC":"S", "TCA":"S", "TCG":"S",
@@ -118,8 +119,67 @@ def getProteinData(strand):
                     if codon2 in stop:
                         proteins.add(proteinSeq)
                         break
+                    temp = random.random()
                     if codon2 in map.keys():
                         proteinSeq += map[codon2]
+                    elif 'K' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('K', 'G')]
+                        else:
+                            proteinSeq += map[codon2.replace('K', 'T')]
+                    elif 'M' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('M', 'A')]
+                        else:
+                            proteinSeq += map[codon2.replace('M', 'C')]
+                    elif 'B' in codon2:
+                        if temp < 0.33:
+                            proteinSeq += map[codon2.replace('B', 'G')]
+                        elif temp > 0.67:
+                            proteinSeq += map[codon2.replace('B', 'C')]
+                        else:
+                            proteinSeq += map[codon2.replace('B', 'T')]
+                    elif 'V' in codon2:
+                        if temp < 0.33:
+                            proteinSeq += map[codon2.replace('V', 'G')]
+                        elif temp > 0.67:
+                            proteinSeq += map[codon2.replace('V', 'A')]
+                        else:
+                            proteinSeq += map[codon2.replace('V', 'C')]
+                    elif 'S' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('S', 'G')]
+                        else:
+                            proteinSeq += map[codon2.replace('S', 'C')]
+                    elif 'W' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('W', 'A')]
+                        else:
+                            proteinSeq += map[codon2.replace('W', 'T')]
+                    elif 'D' in codon2:
+                        if temp < 0.33:
+                            proteinSeq += map[codon2.replace('D', 'G')]
+                        elif temp > 0.67:
+                            proteinSeq += map[codon2.replace('D', 'T')]
+                        else:
+                            proteinSeq += map[codon2.replace('D', 'A')]
+                    elif 'Y' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('Y', 'T')]
+                        else:
+                            proteinSeq += map[codon2.replace('Y', 'C')]
+                    elif 'R' in codon2:
+                        if temp < 0.5:
+                            proteinSeq += map[codon2.replace('R', 'C')]
+                        else:
+                            proteinSeq += map[codon2.replace('R', 'A')]
+                    elif 'H' in codon2:
+                        if temp < 0.33:
+                            proteinSeq += map[codon2.replace('H', 'A')]
+                        elif temp > 0.67:
+                            proteinSeq += map[codon2.replace('H', 'T')]
+                        else:
+                            proteinSeq += map[codon2.replace('H', 'C')]
 
     ''' Print database query if applicable -- get result '''
     for item in proteins:
